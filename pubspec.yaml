@@ -1,0 +1,48 @@
+name: analyzepro
+description: "Projeto Flutter indicadores ERP."
+publish_to: 'none'
+
+version: 1.0.24+26
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  http: ^1.2.2
+  provider: ^6.1.2
+  intl: ^0.20.2
+  shared_preferences: ^2.5.2
+  flutter_secure_storage: ^9.2.4
+  sqflite: ^2.4.2
+  path_provider: ^2.1.5
+  fl_chart: ^1.0.0
+  async: ^2.13.0
+  url_launcher: ^6.3.0        # plugin multiplataforma
+
+  path: any
+  collection: any
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/login/logo.png
+    - assets/icon/app_icon.png
+
+  generate: true
+
+flutter_native_splash:
+  android: true
+  ios: true
+  fullscreen: true
+  color: "#000000"
+  image: assets/login/logo.png
+  android_12:
+    image: assets/login/logo.png
+    icon_background_color: "#000000"

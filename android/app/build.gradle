@@ -1,0 +1,71 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    namespace "com.vinicius.analyzepro"
+    compileSdkVersion 36
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    defaultConfig {
+        applicationId "com.vinicius.analyzepro"
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 36
+        versionCode 26 //aqui tambem tem que alterar, nunca esqueça!
+        versionName "1.0.24" //olha a linha de cima!
+        ndk {
+            // Modo FULL exporta todos os símbolos
+            // ou use SYMBOL_TABLE (reduzido), conforme a necessidade
+            debugSymbolLevel 'FULL'
+        }
+    }
+
+    // Bloco de assinatura para Release
+    signingConfigs {
+        release {
+            if (keystoreProperties['storeFile']) {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false // TEMP: disable to bypass R8 (kotlinx-metadata mismatch)
+            shrinkResources false // TEMP: re-enable after AGP/Kotlin update
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+
+            // IMPORTANTÍSSIMO: usar o signingConfig de release
+            signingConfig signingConfigs.release
+        }
+
+        // (O buildType debug pode continuar usando a chave de debug.)
+    }
+}
+
+flutter {
+    source "../.."
+}
+
+dependencies {
+    implementation 'com.google.crypto.tink:tink-android:1.9.0'
+}
